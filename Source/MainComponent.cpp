@@ -43,14 +43,26 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 
 void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
 {
-    //bufferToFill.clearActiveBufferRegion();
-    for (auto channel = 0; channel < bufferToFill.buffer->getNumChannels(); ++channel) {
-        auto* buffer = bufferToFill.buffer->getWritePointer(channel, bufferToFill.startSample);
-        
+    //No output
+        //bufferToFill.clearActiveBufferRegion();
+    
+    //Stereo noise
+        //for (auto channel = 0; channel < bufferToFill.buffer->getNumChannels(); ++channel) {
+        //    auto* buffer = bufferToFill.buffer->getWritePointer(channel, bufferToFill.startSample);
+        //    
+        //    for (auto sample = 0; sample < bufferToFill.numSamples; ++sample) {
+        //        buffer[sample] = (random.nextFloat() * 0.25f) - 0.125f;
+        //    }
+        //}
+    
+    //Mono noise
+        auto* buffer1 = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
+        auto* buffer2 = bufferToFill.buffer->getWritePointer(1, bufferToFill.startSample);
         for (auto sample = 0; sample < bufferToFill.numSamples; ++sample) {
-            buffer[sample] = (random.nextFloat() * 0.25f) - 0.125f;
+            auto r = (random.nextFloat() * 0.2f) - 0.1f;
+            buffer1[sample] = r;
+            buffer2[sample] = r;
         }
-    }
 }
 
 void MainComponent::releaseResources()
